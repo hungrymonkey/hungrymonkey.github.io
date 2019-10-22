@@ -1,17 +1,17 @@
 ---
 layout: post
-title: Seeking Three Moving Windows in Ogg-Theora
+title: Seeking Three Moving Windows in Ogg-Theora v1
 date: 2019-10-22 00:00:00 +0300
 description: You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. # Add post description (optional)
 img: Theora_logo_2007.svg # Add image post (optional)
-tags: [ogg, theora, seek, video] # add tag
+tags: [ogg, theora, seek, video, codec] # add tag
 ---
 
 
 # Introduction
-Welcome codec enthusiasts!
+Welcome codec enthusiast!
 
-My first blog will discuss the complexities of jumping into an ogg video stream. Designed by Christopher Montogomery, xiph promoted ogg as generic format for all types of media streams. Unfortunately, ogg generic and streaming capabilities has led to a few difficult to reconcile design decisions. This guide is not sample accurate.
+My first post will discuss the complexities of jumping into an ogg video stream. Designed by Christopher Montogomery, xiph promoted ogg as generic format for all types of media streams. Unfortunately, ogg generic and streaming capabilities has led to a few difficult to reconcile design decisions. This guide is not sample accurate.
 
 # Implementation
 
@@ -48,10 +48,10 @@ When we sync file block 3 and 4, `ogg_sync_page` returns 1 which indicates a who
 Although Vorbis codec may has a granuelops in every page, vorbis uses a different granulepos function to calculate the absolute time. Block 7 has an ogg page with an absolute time of .542 seconds. `ogg_page_packets` will return 3.
 
 ### Successful Granulepos
-When we sync blocks 4,5, and 6 `ogg_sync_page` will return 1 after a few buffer and 0 calls. We can calculate the absolute time of the large spanning ogg packet without combining pages. `ogg_page_packets` will return 1.
+When we sync blocks 4,5, and 6 `ogg_sync_page` will return 1 after a few buffers and 0 calls. We can calculate the absolute time of the large spanning ogg packet without combining pages. `ogg_page_packets` will return 1.
 
 ### Binary Ogg Page Search
-In a binary search, the algorithm consists of a pivot and a comparison. In our example, we will pivot around the first positive granuelops page in each 4k buffer block and compare the time in seconds. As an added complication, some blocks do not have a valid page nor granuelops. As a consequence, we are binary searching a sorted array with invalid elements
+In a binary search, the algorithm consists of a pivot and a comparison. In our example, we will pivot around the first positive granuelops page in each 4k buffer block and compare the time in seconds. As an added complication, some blocks do not have a valid page nor granuelops. As a consequence, we are binary searching a sorted array with invalid elements.
 
 ![Ogg Example 1]({{site.baseurl}}/assets/img/2019-10-22-array-with-gaps.jpg)
 
@@ -189,15 +189,15 @@ Since libogg do not provide facilities to iterate ogg pages backwards, our buffe
 ![Ogg Example 1]({{site.baseurl}}/assets/img/2019-10-22-ogg-theora2.jpg)
 
 
-In addition to sync problems in the described first section, we present sync problems with `ogg_stream_pageout`
+In addition to sync problems in the described first section, we present sync problems with `ogg_stream_pageout`.
 
 ### Page Contains an Incomplete Packet
-When we block 8, we find a page with invalid granule; consequently, we need to sync the next page to obtain the complete packet.
+When we buffer block 8, `ogg_stream_packetout` reveals the page has the beginning of the packet. We need to sync the next page to obtain the complete packet.
 
-### No Keyframe Found in the Ogg Page
-In file block 5 or 6, the page have an offset greater than 1. Theora define granulepos as keyframe granule|offset frame. Although libtheora only provides a keyframe check for the packet, you can discern the keyframe with ogg page granule only.
+### No Keyframe Found
+In file block 5 or 6, the pages have an offset greater than 1. Theora define granulepos as keyframe granule|offset frame. Although libtheora only provides a keyframe check for the packet, you can discern the keyframe with ogg page granule only.
 
-In the code below, the backtracking algorithm finds all beginning ogg sections started in current buffer and follows data to return a valid complete ogg packet. The code tests ogg packets. This code assume the keyframe is contained within one ogg page.
+In the code below, the backtracking algorithm finds all beginning ogg sections started in current buffer and follows data to return a valid complete ogg packet. The code tests ogg packets. This code assumes the keyframe is contained within one ogg page.
 ```c++
 // Backtrack to find the keyframe
     // Keyframes seem to reside on their own page
@@ -252,8 +252,8 @@ In the code below, the backtracking algorithm finds all beginning ogg sections s
 
 ## Decoder Submission
 
-Since we found the keyframe and time in the last section, the next step is to submit frames into `th_decode_packetin` and dump it with `th_decode_ycbcr_out`. As decoder scan forward, the granulepos can be incremented to allow frame comparison to the desired seek time. When the stream advance pass the desired time by one frame, just break out. Resume should be able to play the leftover frames within the theora stream.
-On the other hand, proper vorbis scanning is difficult. Vorbis pcm are encapsulated within the vorbis block. As a consequence, all decoders deal with 4 sync windows. Unlike the keyframe, we are not necessarily guaranteed to have the previous page timestamp. In order to sync by packet, my best approximation is to use `vorbis_packet_blocksize` and `ogg_page_packets` to estimate the correct pcm timestamp. Nevertheless, this method would not work on files with variable block sizes.
+Since we found the keyframe and time in the last section, the next step is to submit frames into `th_decode_packetin` and dump it with `th_decode_ycbcr_out`. As the decoder scans forward, the granulepos can be incremented to allow frame comparison to the desired seek time. When the stream advance pass the desired time by one frame, just break out. Resume should be able to play the leftover frames within the theora stream.
+On the other hand, libvorbis and libogg provide limited facilities to help anyone write sample accurate seeking. Vorbis pcm are encapsulated within the vorbis block. As a consequence, all decoders deal with 4 sync windows. Unlike the keyframe, we are not necessarily guaranteed to have the previous page timestamp. In order to sync by packet, my best approximation is to use `vorbis_packet_blocksize` and `ogg_page_packets` to estimate the correct pcm timestamp. Nevertheless, this method would not work on files with variable block sizes.
 
 ```c++
 //Process keyframe
@@ -314,7 +314,7 @@ On the other hand, proper vorbis scanning is difficult. Vorbis pcm are encapsula
 
 ## Tricks
 
-### Calculating the time in each theora ogg_packet within each ogg_page.
+### Calculating the time(s) in each theora ogg_packet within each ogg_page.
 
 Theora defines the granulepos as keyframe granule|offset. For an example, 56|3 is a frame is 3 delta frames after the keyframe. The keyframe tend to be separated into its own page and each ogg packet contains only one frame. Since ogg page outputs the completed packets, the trick is to count backwards to shift the offset to the correct frame.
 ```c
@@ -324,9 +324,9 @@ while( ogg_stream_pageout(&to, &op) > 0 ) {
     double time_secs = th_granule_time(&vi, last_granule - total_end_packets--);
 }
 ```
-### Convert vorbis time to granulepos
+### Convert Vorbis time(s) to granulepos
 
-The spec states 
+The   states 
 > The granule position of pages containing Vorbis audio is in units of PCM audio samples (per channel; a stereo stream’s granule position does not increment at twice the speed of a mono stream).
 
 ```c
