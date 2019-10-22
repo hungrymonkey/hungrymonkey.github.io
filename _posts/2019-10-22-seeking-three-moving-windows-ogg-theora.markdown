@@ -11,7 +11,7 @@ tags: [ogg, theora, seek, video, codec] # add tag
 # Introduction
 Welcome codec enthusiast!
 
-My first post will discuss the complexities of jumping into an ogg video stream. Designed by Christopher Montogomery, xiph promoted ogg as generic format for all types of media streams. Unfortunately, ogg generic and streaming capabilities has led to a few difficult to reconcile design decisions. This guide is not sample accurate.
+My first post will discuss the complexities of jumping into an ogg video stream. Designed by Christopher Montogomery, xiph promoted ogg as generic format for all types of media streams. Unfortunately, ogg generic and streaming design has led to a few difficult to reconcile design decisions. This guide is not sample accurate.
 
 # Implementation
 
@@ -316,7 +316,8 @@ On the other hand, libvorbis and libogg provide limited facilities to help anyon
 
 ### Calculating the time(s) in each theora ogg_packet within each ogg_page.
 
-Theora defines the granulepos as keyframe granule|offset. For an example, 56|3 is a frame is 3 delta frames after the keyframe. The keyframe tend to be separated into its own page and each ogg packet contains only one frame. Since ogg page outputs the completed packets, the trick is to count backwards to shift the offset to the correct frame.
+Theora defines the granulepos as keyframe granule|offset. For an example, 56|3 is a frame is 3 delta frames after the keyframe. Each keyframe tends to be separated into its own page and each ogg packet contains only one frame. Since `ogg_page_packets` outputs completed packets, the trick is to count backwards to offset the correct frame. The code below is only useful in a continuing stream because the code fails to accommodate incomplete beginning ogg packet.
+
 ```c
 ogg_int64_t total_end_packets = ogg_page_packets(&og);
 ogg_int64_t last_granule = ogg_page_granulepos(&og);
