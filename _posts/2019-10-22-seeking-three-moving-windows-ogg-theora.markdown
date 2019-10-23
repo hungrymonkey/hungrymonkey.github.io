@@ -315,7 +315,7 @@ On the other hand, libvorbis and libogg provide limited facilities to help anyon
 
 
 ## Author's Notes
-In hindsight, dividing the file into fixed 4k blocks has led to a few elaborate design decisions such as gapped binary search. In my next design, I would use the frame offset and previous scan out ogg pages to estimate the amount of bytes needed to backtrack.
+In hindsight, dividing the file into fixed 4k blocks has led to a few elaborate design decisions such as gapped binary search. In my next design, I would use the granulepos and previously inspected ogg pages to estimate the amount of bytes needed to backtrack.
 
 
 ### Tricks
