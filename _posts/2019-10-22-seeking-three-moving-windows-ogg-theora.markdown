@@ -312,9 +312,15 @@ On the other hand, libvorbis and libogg provide limited facilities to help anyon
     }
 ```
 
-## Tricks
 
-### Calculating the time(s) in each theora ogg_packet within each ogg_page.
+
+## Author's Notes
+In hindsight, dividing the file into fixed 4k blocks has led to a few elaborate design decisions such as gapped binary search. In my next design, I would use the frame offset and previous scan out ogg pages to estimate the amount of bytes needed to backtrack.
+
+
+### Tricks
+
+#### Calculating the time(s) in each theora ogg_packet within each ogg_page.
 
 Theora defines the granulepos as keyframe `granule|offset`. For an example, `56|3` is a frame is 3 delta frames after the keyframe. Each keyframe tends to be separated into its own page and each ogg packet contains only one frame. Since `ogg_page_packets` outputs completed packets, the trick is to count backwards to offset the correct frame. The code below is only useful in a continuing stream because the code fails to accommodate incomplete beginning ogg packet.
 
@@ -325,7 +331,7 @@ while( ogg_stream_pageout(&to, &op) > 0 ) {
     double time_secs = th_granule_time(&vi, last_granule - total_end_packets--);
 }
 ```
-### Convert Vorbis time(s) to granulepos
+#### Convert Vorbis time(s) to granulepos
 
 The specification states 
 > The granule position of pages containing Vorbis audio is in units of PCM audio samples (per channel; a stereo stream’s granule position does not increment at twice the speed of a mono stream).
@@ -334,13 +340,11 @@ The specification states
 granulepos = floating_time * vi.rate
 ```
 
-### Convert Dummy Theora granulepos for comparison
+#### Convert Dummy Theora granulepos for comparison
 ```c
 ((ogg_int64_t)(Videotime * vi.rate)) << vi.keyframe_granule_shift
 ```
 
-## Author's Notes
-In hindsight, dividing the file into fixed 4k blocks has led to a few elaborate design decisions such as gapped binary search. In my next design, I would use the frame offset and previous scan out ogg pages to estimate the amount of bytes needed to backtrack.
 
 ## Links
 * [Godot Seek Theora Implementation](https://github.com/hungrymonkey/godot/tree/seek_theora)
