@@ -339,7 +339,7 @@ granulepos = floating_time * vi.rate
 ((ogg_int64_t)(Videotime * vi.rate)) << vi.keyframe_granule_shift
 ```
 
-## Author Notes
+## Author's Notes
 In hindsight, dividing the file into fixed 4k blocks has led to a few elaborate design decisions such as gapped binary search. In my next design, I would use the frame offset and previous scan out ogg pages to estimate the amount of bytes needed to backtrack.
 
 ## Links
