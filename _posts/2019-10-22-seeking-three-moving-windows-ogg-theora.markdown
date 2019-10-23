@@ -316,7 +316,7 @@ On the other hand, libvorbis and libogg provide limited facilities to help anyon
 
 ### Calculating the time(s) in each theora ogg_packet within each ogg_page.
 
-Theora defines the granulepos as keyframe granule|offset. For an example, 56|3 is a frame is 3 delta frames after the keyframe. Each keyframe tends to be separated into its own page and each ogg packet contains only one frame. Since `ogg_page_packets` outputs completed packets, the trick is to count backwards to offset the correct frame. The code below is only useful in a continuing stream because the code fails to accommodate incomplete beginning ogg packet.
+Theora defines the granulepos as keyframe `granule|offset`. For an example, `56|3` is a frame is 3 delta frames after the keyframe. Each keyframe tends to be separated into its own page and each ogg packet contains only one frame. Since `ogg_page_packets` outputs completed packets, the trick is to count backwards to offset the correct frame. The code below is only useful in a continuing stream because the code fails to accommodate incomplete beginning ogg packet.
 
 ```c
 ogg_int64_t total_end_packets = ogg_page_packets(&og);
@@ -327,7 +327,7 @@ while( ogg_stream_pageout(&to, &op) > 0 ) {
 ```
 ### Convert Vorbis time(s) to granulepos
 
-The   states 
+The specification states 
 > The granule position of pages containing Vorbis audio is in units of PCM audio samples (per channel; a stereo stream’s granule position does not increment at twice the speed of a mono stream).
 
 ```c
