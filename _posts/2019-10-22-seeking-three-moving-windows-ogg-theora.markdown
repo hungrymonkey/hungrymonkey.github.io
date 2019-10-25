@@ -91,9 +91,9 @@ struct _page_info {
         double_t time;
         ogg_int64_t granulepos;
     };
-    float p_time = 50.0; //desired seek time
+    float p_time = 50.0; //Target seek time
  
-    size_t buffer_size = (size_t)BUFFERSIZE; //Cast BUFFERSIZE
+    size_t buffer_size = (size_t) BUFFERSIZE; //Cast BUFFERSIZE
     size_t end_file = file->get_len();
     size_t start_file = 0;
     size_t number_of_blocks = (end_file - start_file) / buffer_size;
@@ -115,7 +115,7 @@ struct _page_info {
         int block = mid_block;
  
         if (block_time.has(block)) {
-            //Check whether this block has been visited
+            //Ignore visited blocks
             break;
         }
  
@@ -129,17 +129,17 @@ struct _page_info {
             //keep syncing until a page is found. Buffer is only 4k while ogg pages can be up to 65k in size
             int ogg_page_sync_state = ogg_sync_pageout(&oy, &og);
             if (ogg_page_sync_state == -1) {
-                //Give up when the file advances past the right boundary
+                //Give up when the cursor advances past the right boundary
                 if (buffer_data() == 0) {
                     right = mid_block;
                     break;
                 } else {
-                    //increment block size we buffered the next block
+                    //buffer the next block
                     block++;
                 }
             } else {
                 if (ogg_page_sync_state == 0) {
-                    //Check if I reached the end of the file
+                    //Check if there are no more bytes
                     if (buffer_data() == 0) {
                         right = mid_block;
                         break;
@@ -147,7 +147,7 @@ struct _page_info {
                         block++;
                     }
                 } else {
-                    //Only pages with an end packet have granulepos. Check the stream
+                    //Check if the page has a granulepos. Ignore Vorbis pages
                     if (ogg_page_packets(&og) > 0 && ogg_page_serialno(&og) == to.serialno) {
                         next_midpoint = false;
                         break;
@@ -199,8 +199,7 @@ In file block 5 or 6, the pages have an offset greater than 1. Theora define gra
 
 In the code below, the backtracking algorithm finds all beginning ogg sections started in current buffer and follows data to return a valid complete ogg packet. The code tests ogg packets. This code assumes the keyframe is contained within one ogg page.
 ```c++
-// Backtrack to find the keyframe
-    // Keyframes seem to reside on their own page
+    // Backtrack to find the keyframe
     while (current_block >= 0) {
         ogg_stream_reset(&to);
         ogg_stream_reset(&vo);
@@ -220,7 +219,7 @@ In the code below, the backtracking algorithm finds all beginning ogg sections s
                 ogg_page_sync_state = ogg_sync_pageout(&oy, &og);
             }
             if (ogg_page_sync_state == 1) {
-                //Only queue pages with a single packet
+                //Queue pages with a single packet
                 if (ogg_page_packets(&og) == 1) {
                     queue_page(&og);
                     ogg_stream_packetpeek(&to, &op); //Just attempt it
@@ -264,7 +263,7 @@ On the other hand, libvorbis and libogg provide limited facilities to help anyon
     th_decode_ycbcr_out(td, yuv); //dump frame
     ogg_stream_packetout(&to, &op);
  
-    //decode video until the decoder catches up to the seek time
+    //Decode frames until the decoder catches up to the seek time
     while (videobuf_time <= p_time) {
         int ogg_sync_state = ogg_sync_pageout(&oy, &og);
         while (ogg_sync_state < 1) {
@@ -286,9 +285,8 @@ On the other hand, libvorbis and libogg provide limited facilities to help anyon
                 th_ycbcr_buffer yuv;
                 th_decode_ycbcr_out(td, yuv); //dump frames
             }
-            //Needed to calculate the time without extra memory allocation
         } else {
-            //Drop pages behind the seek
+            //Drop pages behind the seek the target
             double end_music_time = vorbis_granule_time(&vd, ogg_page_granulepos(&og));
             if (end_music_time > p_time) {
                 queue_page(&og);
