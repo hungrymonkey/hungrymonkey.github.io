@@ -11,7 +11,8 @@ tags: [ogg, theora, seek, video, codec] # add tag
 # Introduction
 Welcome codec enthusiast!
 
-My first post will discuss the complexities of jumping into an ogg video stream. Designed by Christopher Montogomery, xiph promoted ogg as generic format for all types of media streams. Unfortunately, ogg generic and streaming design has led to a few difficult to reconcile design decisions. This guide is not sample accurate.
+My first post will discuss the complexities of jumping into an ogg video stream. Designed by Christopher Montogomery, xiph promoted ogg as a generic format for all types of media streams. Unfortunately, ogg generic and streaming capabilities have led to a few difficult to reconcile design decisions. This guide is not sample accurate.
+
 
 # Implementation
 
@@ -290,7 +291,7 @@ On the other hand, libvorbis and libogg provide limited facilities to help anyon
             double end_music_time = vorbis_granule_time(&vd, ogg_page_granulepos(&og));
             if (end_music_time > p_time) {
                 queue_page(&og);
-                //Queue the page which music time is greater than the seek time.
+                //Queue the page when the music time is greater than the seek time.
                 audio_granulepos = ogg_page_granulepos(&og);
                 total_packets = ogg_page_packets(&og);
             }
