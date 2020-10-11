@@ -3,7 +3,7 @@ layout: post
 title: Section 14 (c) - Modern Day Caste System
 date: 2020-10-10 00:00:00 +0300
 description: You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. # Add post description (optional)
-img: 2020-04-25-systemd-dark-logo.svg # Add image post (optional)
+img: 2020-10-10-banner-pyramid.webp # Add image post (optional)
 tags: [society, disabilities] # add tag
 ---
 
