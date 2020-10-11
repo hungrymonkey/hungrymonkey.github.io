@@ -18,62 +18,90 @@ The Supreme Court reinstated individual’s right to integrate into society. The
 ## Links
 
 ### Law
-[1] (29 U.S. Code § 214 (c) (1)) https://www.law.cornell.edu/uscode/text/29/214
-[3] (29 U.S. Code § 214 (c) (4)) https://www.law.cornell.edu/uscode/text/29/214 
-[4] (29 U.S. Code § 525.5 ) https://www.gpo.gov/fdsys/pkg/CFR-2017-title29-vol3/xml/CFR-2017-title29-vol3-part525.xml
-[5] (29 U.S. Code § 525.7 (a) ) https://www.gpo.gov/fdsys/pkg/CFR-2017-title29-vol3/xml/CFR-2017-title29-vol3-part525.xml
-[6] (29 U.S. Code § 525.10 (a) ) https://www.gpo.gov/fdsys/pkg/CFR-2017-title29-vol3/xml/CFR-2017-title29-vol3-part525.xml
-[11] https://www.abilityone.gov/laws,_regulations_and_policy/jwod.html
-[19] (42 U.S. Code §§12101(a)(2)) https://www.law.cornell.edu/uscode/text/42/12101
+[1]: <https://www.law.cornell.edu/uscode/text/29/214> 29 U.S. Code § 214 (c) (1)
+
+[3]: <https://www.law.cornell.edu/uscode/text/29/214> 29 U.S. Code § 214 (c) (4)
+
+[4]: <https://www.gpo.gov/fdsys/pkg/CFR-2017-title29-vol3/xml/CFR-2017-title29-vol3-part525.xml> 29 U.S. Code § 525.5
+
+[5]: <https://www.gpo.gov/fdsys/pkg/CFR-2017-title29-vol3/xml/CFR-2017-title29-vol3-part525.xml> 29 U.S. Code § 525.7 (a)
+
+[6]: <https://www.gpo.gov/fdsys/pkg/CFR-2017-title29-vol3/xml/CFR-2017-title29-vol3-part525.xml> 29 U.S. Code § 525.10 (a)
+
+[11]: <https://www.abilityone.gov/laws,_regulations_and_policy/jwod.html> Javits-Wagner-O'Day Act
+[19]: <https://www.law.cornell.edu/uscode/text/42/12101> 42 U.S. Code §§12101(a)(2)
 
 ### News
-[2] https://www.npr.org/2014/04/23/305854409/subminimum-wages-for-the-disabled-godsend-or-exploitation
+
+[2]: <https://www.npr.org/2014/04/23/305854409/subminimum-wages-for-the-disabled-godsend-or-exploitation> Subminimum Wages For The Disabled: Godsend Or Exploitation?
 
 https://www.adn.com/business-economy/2017/09/29/alaska-wants-to-get-rid-of-minimum-wage-exemption-for-people-with-disabilities/
+
 https://www.huffingtonpost.com/curtis-l-decker-jd/people-with-disabilities-_3_b_8303198.html
+
 http://publicsource.org/vermont-closed-workshops-for-people-with-disabilities-what-happened-next/
+
 https://www.npr.org/2015/04/14/395287097/advocates-fight-to-keep-sheltered-workshops-for-disabled-workers
+
 https://www.usatoday.com/story/news/nation/2014/07/28/sheltered-workshops-disabled-phased-out/13302139/
 
 ### Department of Labor
-[7] http://webapps.dol.gov/elaws/whd/flsa/14c/20b.htm
-[8] Page 5 https://www.dol.gov/odep/pdf/ChapterTwo14cProgram.pdf
+[7]: <https://web.archive.org/web/20161221063156/http://webapps.dol.gov/elaws/whd/flsa/14c/20b.htm> - Most Common Violations Found During an Investigation Under FLSA Section 14(c)
+[8]: <https://www.dol.gov/odep/pdf/ChapterTwo14cProgram.pdf> Section 14(c) Subminimum Wage Certificate Program - Page 5
+
 http://webapps.dol.gov/dolfaq/go-dol-faq.asp?faqid=67
+
 https://webapps.dol.gov/elaws/whd/flsa/14c/
+
 https://www.dol.gov/whd/regs/compliance/whdfs39.pdf
+
 https://www.dol.gov/newsroom/releases/whd/whd20180423
+
 https://www.dol.gov/whd/regs/statutes/FairLaborStandAct.pdf
+
 https://www.dol.gov/whd/workerswithdisabilities/certificates.htm
+
 https://www.dol.gov/odep/documents/employerperspectives.pdf
+
 https://web.archive.org/web/20180712205307/https://www.dol.gov/general/aboutdol/history/flsa1938
+
 http://www.dol.gov/whd/media/press/whdpressVB3.asp?pressdoc=Northeast/20140130.xml
 
 ### Government Accountability Office
-[9] Page 9 https://www.gao.gov/products/GAO-01-886
-[10] Page 4 https://www.gao.gov/products/GAO-01-886
-[12] Page 4 https://www.gao.gov/products/GAO-01-886
-[13] Page 11 https://www.gao.gov/assets/240/232264.pdf
+[9]: <https://www.gao.gov/products/GAO-01-886> Centers Offer Employment and Support Services to Workers With Disabilities, But Labor Should Improve Oversight -  Page 9 
+
+[10]: <https://www.gao.gov/products/GAO-01-886> - Centers Offer Employment and Support Services to Workers With Disabilities, But Labor Should Improve Oversight -  Page 4
+
+[12]: <https://www.gao.gov/products/GAO-01-886> - Centers Offer Employment and Support Services to Workers With Disabilities, But Labor Should Improve Oversight -  Page 4
+
+[13]: <https://www.gao.gov/assets/240/232264.pdf> - SPECIAL MINIMUM WAGE PROGRAM - Centers Offer Employment and Support Services to Workers With Disabilities, But Labor Should Improve Oversight - Page 11
 
 ### Congress
 https://www.congress.gov/bill/112th-congress/house-bill/3086
 
 ### Robert Evert Cimera Educational Foundations and Special Services, Kent State University
-[24] https://www.researchgate.net/publication/260782022_Supported_versus_sheltered_employment_Cumulative_costs_hours_worked_and_wages_earned
+
+[24] <https://www.researchgate.net/publication/260782022_Supported_versus_sheltered_employment_Cumulative_costs_hours_worked_and_wages_earned> - Supported versus sheltered employment: Cumulative costs, hours worked, and wages earned
 
 ### Labor Economics Domestic Social Policy Division, William G. Whittaker
 https://digitalcommons.ilr.cornell.edu/cgi/viewcontent.cgi?article=1211&context=key_workplace
 
 ### National Federation of the Blind, Samuel R. Bagenstos
-[15] Page 10 http://www.ct.gov/dds/lib/dds/employment/the_case_against_14c_sub_minumum_wage_program.pdf
+[15]:  <https://web.archive.org/web/20170225102437/http://www.ct.gov/dds/lib/dds/employment/the_case_against_14c_sub_minumum_wage_program.pdf> - The Case Against the Section 14(c) Subminimum Wage Program -
+Prepared for the National Federation of the Blind - Page 10
 
 ### National Council of Disability
 https://ncd.gov/sites/default/files/NCD_Sub%20Wage.pdf
+
 https://www.ncd.gov/publications/2012/August232012/sites
+
 https://ncd.gov/publications/2014/01302014/
 
 ### Elizabeth Warren 
 https://www.warren.senate.gov/download/20180423-letter-to-dol-on-subminimum-wage-for-workers-with-disabilities
+
 https://www.congress.gov/bill/113th-congress/house-bill/831/text
+
 http://uscode.house.gov/view.xhtml?req=(title:29%20section:214%20edition:prelim)
 
 ### USBLN
@@ -83,16 +111,20 @@ http://www.usbln.org/usbln-issues-position-statement-about-subminimum-wage-for-w
 https://digitalcommons.law.seattleu.edu/cgi/viewcontent.cgi?article=2231&context=sulr
 
 ### State of Hawaii Department of Labor and Industrial Relations
-[18] Page 18 http://labor.hawaii.gov/wsd/files/2016/02/HAR-12-20-61-to-80_3-Handicapped-Clients-in-Sheltered-Workshops-Internet-rev01-15.pdf
+[18]: <http://labor.hawaii.gov/wsd/files/2016/02/HAR-12-20-61-to-80_3-Handicapped-Clients-in-Sheltered-Workshops-Internet-rev01-15.pdf> Wage Standards Division - Subchapter 3 Employment of Handicapped Clients in Sheltered Workshops - Page 18 
+
 https://www.capitol.hawaii.gov/session2018/testimony/HB1627_HD1_TESTIMONY_FIN_02-22-18_.PDF
 
 ### Iowa Department of Human Rights
 https://humanrights.iowa.gov/sites/default/files/media/The%20Great%20Debate_%20The%20Shift%20from%20Sheltered%20Workshops%20to%20Competitive%20Integrated%20Employment_1.pdf
 
 ### Lawsuits
-[14] https://www.browngold.com/wbcntntprd1/wp-content/uploads/Denoewer-v-UCO-Honda-Complaint.pdf
-[15] https://www.law.cornell.edu/supct/html/98-536.ZS.html
+[14]: <https://www.leagle.com/decision/infdco20180418f70>  DENOEWER v. UCO INDUSTRIES, INC. 
+
+[15]: <https://www.law.cornell.edu/supct/html/98-536.ZS.html> OLMSTEAD V. L. C. (98-536) 527 U.S. 581 (1999) 
+
 https://nfb.org/sheltered-workshop-and-honda-america-manufacturing-sued-disability-discrimination
+
 https://droregon.org/lane-v-kitzhaber/
 
 ### Confidential Shredder - Australia
@@ -106,10 +138,11 @@ https://www.ada.gov/olmstead/documents/lane_final_rpt_2016.pdf
 https://www.oregon.gov/DHS/EMPLOYMENT/EMPLOYMENT-FIRST/DataReports/Lane%20v%20Brown%20Semi-Annual%20Report%202-28-17.pdf
 
 ### New York
-[20] https://www.ny.gov/programs/olmstead-community-integration-every-new-yorker
-[21] https://www.governor.ny.gov/news/no-84-establishing-olmstead-plan-development-and-implementation-cabinet
-[22] https://www.governor.ny.gov/sites/governor.ny.gov/files/atoms/files/Presentation%20Update%20on%20Olmstead%20Report%20%28Nursing%20Homes%29%2011-2-16%20MISCC%20.pdf
-[23] https://www.ny.gov/olmstead-community-integration-every-new-yorker/most-integrated-setting-coordinating-council-miscc#success-stories
+[20]: <https://www.ny.gov/programs/olmstead-community-integration-every-new-yorker> Olmstead Community Integration
+[21]: <https://www.governor.ny.gov/news/no-84-establishing-olmstead-plan-development-and-implementation-cabinet> No. 84: Establishing the Olmstead Plan Development and Implementation Cabinet
+
+[22]: <https://www.governor.ny.gov/sites/governor.ny.gov/files/atoms/files/Presentation%20Update%20on%20Olmstead%20Report%20%28Nursing%20Homes%29%2011-2-16%20MISCC%20.pdf> Update on Olmstead Report (Nursing Homes)
+[23]: <https://www.ny.gov/olmstead-community-integration-every-new-yorker/most-integrated-setting-coordinating-council-miscc#success-stories> The Most Integrated Setting Coordinating Council (MISCC) - Success Stories
 
 ### California
 https://www.dir.ca.gov/dlse/ShelteredWorkshopsandSpecialMinimumWageWorkers.html
@@ -118,11 +151,12 @@ https://scdd.ca.gov/sw_policy/
 http://www.inclusionbc.org/sites/default/files/SubminimumWage_0.pdf
 
 ### Snopes
-[16] https://www.snopes.com/fact-check/executive-salaries-charities/
+[16]: <https://www.snopes.com/fact-check/executive-salaries-charities/> Executive Salaries Charities
 
 ### Sheltered Workshops
 #### a. Goodwill
-[17] http://www.goodwill.org/uncategorized/think-before-you-donate-and-get-the-facts-about-email-rumors/
+[17]: <https://web.archive.org/web/20170402142124/http://www.goodwill.org/uncategorized/think-before-you-donate-and-get-the-facts-about-email-rumors/> Think Before You Donate – and Get the Facts about Online Rumors!
+
 http://www.goodwill.org/wp-content/uploads/2013/06/Goodwill-14c-Fair-Wages-Position-Paper.pdf
 
 #### b. Melwood
