@@ -11,7 +11,7 @@ tags: [hackerrank, set, hashmap, python3, object] # add tag
 
 Welcome hackerrank coders!
 
-Finding the Union of Two Unsorted Arrays is a coderpad type interview question. The solution uses sets or hashmaps but reality tends to find new ways to defeat common algorithms by introducing common noise such as complements. This algorithm is useful for validating a new list against an old unsorted list. In this blog post, we overload python3 objects in order to match these complements as interaction passes.
+Finding the Union of Two Unsorted Arrays is a coderpad type interview question. The solution uses sets or hashmaps, but reality tends to find new ways to defeat common algorithms by introducing common noise such as complements. This algorithm is useful for validating a new list against an old unsorted list. In this blog post, we overload python3 objects in order to match these complements as interaction passes.
 
 ## Problem
 
@@ -84,7 +84,7 @@ def __eq__(self, other):
 			return (self.get_first_name() == other.get_first_name()) and (self.get_last_name() == other.get_last_name())
 ```
 
-In a substitution match, we must override the function in a way that allow us to compare the drived class to the base class. Since we do not need to compare the object to itself, self comparisons can be ignored.
+In a substitution match, we must override the function in a way that allow us to compare the derived class to the base class. Since we do not need to compare the object to itself, self comparisons can be ignored.
 
 ```
 if isinstance(other, _base):
