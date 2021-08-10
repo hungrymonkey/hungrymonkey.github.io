@@ -13,6 +13,8 @@ I would like to thank Cloudflare Workers and Fauna for providing a generous free
 
 For my volunteer work, the AAa/e organizers asked me to develop an auction website for their 2021 annual fundraiser. Although I agree the project is feasible within the allotted time, the organizers provided vague answers to hosting resources because architects tend to work long hours and the silent auction was one of many events to be hosted at the 2021 fundraiser. As a result, I decided to evaluate various serverless products to reduce deployment, development, and hosting resources. Although I never used their products before, Cloudflare stands out because their engineering team chronicled their troubles and strives to contribute to the Linux ecosystem. In addition, I decided to choose their preferred database partner with a decent sized free tier because I wanted to avoid compatibility problems. Yikes, I added two new tools to learn on a time constrained project.
 
+![AAa/e silent auction]({{site.baseurl}}/assets/img/2021-08-09-auction-website.png)
+
 As a basic overview, an auction site must have a frontend, backend, and database. Since this project only needs to serve a few hundred people, I can forgo features such as caches and various other features to improve scalability. Hence, this project can be completed within the free tier. Nevertheless, these tools have benefits and caveats as mentioned below.
 
 ## Backend
@@ -27,7 +29,6 @@ The V8 engine introduces many restrictions on tooling and language usage. Althou
 In Javascript, Node.js dominates the back development ecosystem such that the vast majority of libraries only support the Node.js API. Unfortunately, Cloudflare only supports HTTPS requests and can only use browser compatible API. Cloudflare workers cannot benefit from Express, Password.js, or the Mongodb driver because those libraries either expect the Node.js runtime, or use a protocol other than regular HTTPS calls. As a workaround, the community created their libraries in order to emulate those functionality.
 
 #### Webpack.config.js
-
 In order to allow imports, it is advisable to set up webpack in order to combine the code into one javascript file.
 
 ```javascript
@@ -54,7 +55,7 @@ module.exports = {
 
 #### Routes
 
-
+To add routes to the endpoint, Cloudflare allows the user to access calling information by attaching a listener. The listener returns a JSON payload that can be passed into a router and allows different features within the same codebase. Each event has basic information to construct a router library.
 
 ```javascript
 addEventListener('fetch', event => {
@@ -62,6 +63,7 @@ addEventListener('fetch', event => {
   console.log(event)
 })
 ```
+
 ```json
 {
   "request": {
@@ -77,13 +79,12 @@ addEventListener('fetch', event => {
 }
 ```
 
-
 ### Python
-In contrast, Cloudflare workers' requirement to compile down to Javascript has neutered and alienated Python from the rest of the ecosystem. Wranglers uploads Python by transpiling the code into Javascript with Transcrypt. The way that Python is separate from its runtime is similar to the scars of the fabled 2to3 transition. In any programming language, there is a concept of moving the executable to another environment and observing the same output which is called an Application Binary Interface. For example, a Windows C binary can run on all systems that speak the WIndow C API. In fact, the ABI can be emulated on other OS through projects such as WINE is not an emulator. Contrary to compiled languages similar to C, scripting language ABI is the code itself. Code tends to have more concepts and a larger surface area than the binary itself. As a consequence, any major changes to runtime can reclassify the language as something different despite the similarities. While writing Transcrypt code, I felt as if I was writing Javascript code in Python.
+In contrast, Cloudflare workers' requirement to compile down to Javascript has neutered and alienated Python from the rest of the ecosystem. Wranglers uploads Python by converting the code into Javascript with Transcrypt. The way that Python is separate from its runtime is similar to the scars of the fabled 2to3 transition. In any programming language, there is a concept of moving the executable to another environment and observing the same output which is called an Application Binary Interface. For example, a Windows C binary can run on all systems that speak the WIndow C API. In fact, the ABI can be emulated on other OS through projects such as WINE is not an emulator. Contrary to compiled languages similar to C, scripting language ABI is the code itself. Code tends to have more concepts and a larger surface area than the binary itself. As a consequence, any major changes to runtime can reclassify the language as something different despite the similarities. While writing Transcrypt code, I felt as if I was writing Javascript code in Python.
 
-### Language differences
+#### Language differences
 
-In the example below, I was attempting to iterate the dictionary with `keys()` but the compiler complained. I had to use `items()` instead.
+In the example below, I was attempted to iterate the dictionary with `keys()` but the compiler complained. I had to use `items()` instead.
 
 ```python
 #Uncaught (in response) TypeError: Cannot read property 'py_items' of undefined
@@ -95,9 +96,9 @@ In the example below, I was attempting to iterate the dictionary with `keys()` b
 
 str([(k,form_data[k]) for k in form_data.keys()])
 ```
+#### Package Imports
 
-Transcypt cannot find single file imports within the local directory. In order to move the code into different files, you must package your src tree as a package and import the code into your main.
-
+Transcrypt cannot find single file imports within the local directory. In order to move the code into different files, you must package your src tree as a package and import the code into your main.
 
 ## Database
 
@@ -111,15 +112,106 @@ Faunadb divides tables into collections. Unlike SQL databases, collections do no
 Moreover, Faunadb duck tapes the schema with Indexes. Once an Index is made, you can only delete and wait until Faunadb cleans up the Index in order to reuse the name. Indexes display an arbitrary lens into your dataset. Each lens can be modified to suit your needs. All the data transformation will be done in FQL.
 
 ### Progamming
-Deep down, FQL is a Turing Complete Functional Language. FQL formats all queries to be shaped as an Abstract Syntax Tree with nested JSON statements. Once anyone masters the keyword `Let`, variable assignment. FQL feels no different from any functional language with routines such as `Map` or `Filter`. As an added benefit, an entire query is ACID compliant.
+Deep down, FQL is a Turing Complete Functional Language. FQL formats all queries to be shaped as an Abstract Syntax Tree with nested JSON statements. Once anyone masters the keyword `Let`, variable assignment, FQL feels no different from any functional language with routines such as `Map` or `Filter`. As an added benefit, an entire query represents an ACID compliant transaction.
+
+### a. Largest Bid
+
+As an example below, here is an FQL query that finds the max value by selecting the first element in a sorted index and passing the unique id to be formatted into the final output with a series of unions.
+
+```FQL
+Map(
+  Max(
+    Filter(
+      Paginate(Match(Index("bid_by_amount_desc"))),
+      Lambda("Y", 
+      Let({ auctionRef: Select(1, Var("Y"))},
+        Equals(Select(["data", "name"], Get(Var("auctionRef"))), "dummy_auction_name")
+      )
+    )
+  )),
+  Lambda(
+    "X", Let({
+      auction: Get(Select(1, Var("X"))), bid: Get(Select(2, Var("X")))
+    },
+    Merge(
+      Merge(Select(["data"], Var("bid")), {"ts": Select("ts", Var("bid"))}),
+      Merge( 
+        {"auction_end": Select(["data", "auction_end"], Var("auction")) },
+        {"auction_name": Select(["data", "name"], Var("auction")) }
+      ),
+    )
+  )
+  )
+ )
+)
+CreateIndex({
+  name: "bid_by_amount_desc",
+  source: Collection("bid"),
+  values:  [
+    { field: [ "data", "amount" ], reverse: true },
+    { field: [ "data", "auctionRef" ] },
+    { field: [ "ref" ] },
+  ]
+})
+```
+
+#### b. Create Bid
+
+Within FQL, anyone can script various failure modes and custom outputs such that your query can display custom information on how it fails. This query forbids duplicate bids and returns the current last bid. This query can be further improve by injecting customized error codes such that developers can discern the bugs without even looking at the source code.
+
+```
+Let(
+  {
+    maxBid: Max(
+      Filter(
+        Paginate(Match(Index("bid_by_amount_desc"))),
+        Lambda(
+          "Y",
+          Let(
+            { auctionRef: Select(1, Var("Y")) },
+            Equals(Select(["data", "name"], Get(Var("auctionRef"))), "dummy")
+          )
+        )
+      )
+    )
+  },
+  Let(
+    {
+      amount: Select(["data", 0, 0], Var("maxBid")),
+      bid: Get(Select(["data", 0, 2], Var("maxBid"))),
+      timestamp: Now()
+    },
+    If(
+      GT(Var("amount"), 700),
+      Var("bid"),
+      If(
+        Equals(Select(["data", "email"], Var("bid")), "dummy4@example.com"),
+        Var("bid"),
+        Create(Collection("bid"), {
+          data: {
+            email: "dummy4@example.com",
+            name: "dummy4",
+            amount: 700,
+            timestamp: Var("timestamp"),
+            auctionRef: Select(
+              "ref",
+              Get(Match(Index("auction_by_name"), "dummy"))
+            )
+          }
+        })
+      )
+    )
+  )
+)
+```
 
 ### Costs
 
-Regrettably, costs can be difficult to expect. A single query can contain many write or read ops. Since FQL is a functional language, calculating costs can be similar to reasoning out the big O notation. 
+Regrettably, costs can be difficult to expect. A single query can contain many write or read ops. Since FQL is a functional language, calculating costs can be similar to reasoning out the big O notation.
 
 #### a. Problem
 
-Within the documented SQL to FQL example below, Match and Get imposes one read ops each. Combining Get with Map turns a from a constant time algorithm into linear consumption of read ops. Pretend that dept has 5 documents. The total number of readops will be 6 because this query will execute 5 GET and 1 Match.
+Within the documented SQL to FQL example below, Match and Get imposes one read ops each. Combining Get with Map turns a from a constant time algorithm into linear consumption of read ops. Pretend that dept has 5 documents. The total number of read ops will be 6 because this query will execute 5 GET and 1 Match.
 
 ```FQL
 Map(
@@ -134,6 +226,7 @@ CreateIndex({
   source: Collection("dept")
 })
 ```
+
 #### b. Solution
 As a workaround, Faunadb developer suggests users to create specialized indexes that also expose even more document data than the basic unique ID. This workaround would pollute the namespace such that your application may be filled with arbitrary names similar to SQL Views.
 
@@ -150,21 +243,23 @@ CreateIndex({
 })
 ```
 
-Fauna calculates read ops by the accumulated monthly consumption such that it is easy to consume 7 or more ops on each page load per person.
+As a result, it is not that difficult to consume 7 or more read ops per web page. Futhermore, all those reads are accumulated at the end of the month.
+
+## Conclusion
 
 As usual, I am grateful for Faunadb and Cloudflare for providing such generous free tiers to allow me to develop and deploy an auction application within a month from start to finish. Thank you.
 
-https://egghead.io/lessons/faunadb-reducing-the-number-of-read-ops-in-a-query-using-indexes
-https://mikhail.io/serverless/coldstarts/aws/languages/
-https://docs.fauna.com/fauna/current/api/fql/functions/let?lang=shell
-https://developers.cloudflare.com/workers/learning/how-workers-works
-https://aws.amazon.com/blogs/compute/operating-lambda-performance-optimization-part-1/
-https://pages.awscloud.com/rs/112-TZM-766/images/2020_0316-SRV_Slide-Deck.pdf
-https://blog.cloudflare.com/using-webpack-to-bundle-workers/
-https://github.com/cloudflare/python-worker-hello-world
-https://fauna.com/blog/getting-started-with-fauna-and-cloudflare-workers
-https://blog.cloudflare.com/partnership-announcement-db/
-https://github.com/cloudflare/wrangler/issues/543
-https://github.com/cloudflare/worker-template-router
-https://blog.cloudflare.com/using-webpack-to-bundle-workers/
-https://blog.cloudflare.com/code-everywhere-cloudflare-workers/
+* https://egghead.io/lessons/faunadb-reducing-the-number-of-read-ops-in-a-query-using-indexes
+* https://mikhail.io/serverless/coldstarts/aws/languages/
+* https://docs.fauna.com/fauna/current/api/fql/functions/let?lang=shell
+* https://developers.cloudflare.com/workers/learning/how-workers-works
+* https://aws.amazon.com/blogs/compute/operating-lambda-performance-optimization-part-1/
+* https://pages.awscloud.com/rs/112-TZM-766/images/2020_0316-SRV_Slide-Deck.pdf
+* https://blog.cloudflare.com/using-webpack-to-bundle-workers/
+* https://github.com/cloudflare/python-worker-hello-world
+* https://fauna.com/blog/getting-started-with-fauna-and-cloudflare-workers
+* https://blog.cloudflare.com/partnership-announcement-db/
+* https://github.com/cloudflare/wrangler/issues/543
+* https://github.com/cloudflare/worker-template-router
+* https://blog.cloudflare.com/using-webpack-to-bundle-workers/
+* https://blog.cloudflare.com/code-everywhere-cloudflare-workers/
