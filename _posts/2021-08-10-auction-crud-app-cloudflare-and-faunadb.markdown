@@ -237,7 +237,7 @@ CreateIndex({
 
 #### b. Solution
 
-As a workaround, Faunadb developer suggests users to create specialized indexes that also expose even more document data than the unique ID. This workaround would pollute the namespace such that your application may be filled with arbitrary index names similar to SQL Views.
+As a workaround, Fauna suggests all users should create specialized indexes that also expose even more document data than the unique ID. This workaround would pollute the namespace such that your application may be filled with arbitrary index names similar to SQL Views.
 
 ```FQL
 Paginate(Match(Index("all_depts_with_fields")))
