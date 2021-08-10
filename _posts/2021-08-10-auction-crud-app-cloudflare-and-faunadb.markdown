@@ -167,7 +167,7 @@ CreateIndex({
 
 Within FQL, anyone can script various failure modes and custom outputs such that your query can display custom information on how it fails. This query forbids duplicate bids and returns the current last bid. This query can be further improve by allowing developers can discern the bugs with custom error codes.
 
-```
+```FQL
 Let(
   {
     maxBid: Max(
