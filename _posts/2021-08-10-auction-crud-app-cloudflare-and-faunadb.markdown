@@ -89,7 +89,7 @@ In contrast, Cloudflare workers' requirement to compile down to Javascript has n
 
 #### Language differences
 
-In the example below, I was attempted to iterate the dictionary with `keys()` but the compiler complained. I had to use `items()` instead.
+In the example below, I attempted to iterate the dictionary with `keys()` but the compiler complained. I had to use `items()` instead.
 
 ```python
 #Uncaught (in response) TypeError: Cannot read property 'py_items' of undefined
@@ -215,11 +215,11 @@ Let(
 
 ### Costs
 
-Regrettably, costs can be difficult to expect. A single query can contain many write or read ops. Since FQL is a functional language, calculating costs can be similar to reasoning out the big O notation.
+Regrettably, costs can be difficult to predict. A single query can contain many write or read ops. Since FQL is a functional language, calculating costs can be similar to reasoning out the big O notation.
 
 #### a. Problem
 
-Within the documented SQL to FQL example below, Match and Get imposes one read ops each. Combining Get with Map turns a from a constant time algorithm into linear consumption of read ops. Pretend that dept has 5 documents. The total number of read ops will be 6 because this query will execute 5 GET and 1 Match.
+Within the documented SQL to FQL example below, `Match` and `Get` imposes one read ops each. Combining Get with Map turns a from a constant time algorithm into linear consumption of read ops. Pretend that dept has 5 documents. The total number of read ops will be 6 because this query will execute 5 `Get` and 1 `Match`.
 
 ```FQL
 Map(
