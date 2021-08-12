@@ -104,7 +104,7 @@ str([(k,form_data[k]) for k in form_data.keys()])
 
 #### Package Imports
 
-Transcrypt cannot find single file imports within the local directory. In order to move the code into different files, you must package your src tree as a package and import the code into your main handler.
+Transcrypt cannot find single file imports within the local directory. In order to move the code into different files, you layout your source tree as a package and import the code into your main handler.
 
 ## Database
 
